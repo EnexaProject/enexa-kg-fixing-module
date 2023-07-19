@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# things which ENEXA is supposed to do
+mkdir -p $ENEXA_WRITEABLE_DIRECTORY
+echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/dicee/parameters/t-boxFile> <http://ncsr.gr/t-box-filename> . <http://ncsr.gr/t-box-filename> <http://w3id.org/dice-research/enexa/ontology#location> 'enexa-dir://1-ontology_version_1.ttl' }" \
+    |sparql-update "$ENEXA_META_DATA_ENDPOINT"
+echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/dicee/parameters/a-boxFile> <http://ncsr.gr/a-box-filename> . <http://ncsr.gr/a-box-filename> <http://w3id.org/dice-research/enexa/ontology#location> 'enexa-dir://1-extracted_graph_for_enexa_hackathon_LLM_KnowGL.ttl' }" \
+    |sparql-update "$ENEXA_META_DATA_ENDPOINT"
+echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/dicee/parameters/outputFilename> <http://ncsr.gr/output-filename> . <http://ncsr.gr/output-filename> <http://w3id.org/dice-research/enexa/ontology#location> 'enexa-dir://1-extracted_graph_for_enexa_hackathon_LLM_KnowGL_fixed.ttl' }" \
+    |sparql-update "$ENEXA_META_DATA_ENDPOINT"
+
+
+java -Xmx220g -XX:-UseGCOverheadLimit -jar NCSR-Module.jar \
+    -t "$(enexa-parameter "http://example.org/dicee/parameters/t-boxFile")" \
+    -a "$(enexa-parameter "http://example.org/dicee/parameters/a-boxFile")" \
+    -o "$(enexa-parameter "http://example.org/dicee/parameters/outputFilename")" \
+    -c 
