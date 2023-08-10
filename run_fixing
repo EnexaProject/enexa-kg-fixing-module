@@ -1,17 +1,21 @@
 #!/bin/sh
 
-# things which ENEXA is supposed to do
-mkdir -p $ENEXA_WRITEABLE_DIRECTORY
-echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/dicee/parameters/t-boxFile> <http://ncsr.gr/t-box-filename> . <http://ncsr.gr/t-box-filename> <http://w3id.org/dice-research/enexa/ontology#location> 'enexa-dir://1-ontology_version_1.ttl' }" \
+# If this is a test run
+if [ "$TEST_RUN" = true ]
+then  
+  # things which ENEXA is supposed to do
+  mkdir -p $ENEXA_WRITEABLE_DIRECTORY
+  echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://w3id.org/dice-research/enexa/module/extraction/parameter/t-boxFile> <http://ncsr.gr/t-box-filename> . <http://ncsr.gr/t-box-filename> <http://w3id.org/dice-research/enexa/ontology#location> 'enexa-dir://1-ontology_version_1.ttl' }" \
     |sparql-update "$ENEXA_META_DATA_ENDPOINT"
-echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/dicee/parameters/a-boxFile> <http://ncsr.gr/a-box-filename> . <http://ncsr.gr/a-box-filename> <http://w3id.org/dice-research/enexa/ontology#location> 'enexa-dir://1-extracted_graph_for_enexa_hackathon_LLM_KnowGL.ttl' }" \
+  echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://w3id.org/dice-research/enexa/module/extraction/parameter/a-boxFile> <http://ncsr.gr/a-box-filename> . <http://ncsr.gr/a-box-filename> <http://w3id.org/dice-research/enexa/ontology#location> 'enexa-dir://1-extracted_graph_for_enexa_hackathon_LLM_KnowGL.ttl' }" \
     |sparql-update "$ENEXA_META_DATA_ENDPOINT"
-echo "INSERT DATA { <$ENEXA_MODULE_INSTANCE_IRI> <http://example.org/dicee/parameters/outputFilename> <http://ncsr.gr/output-filename> . <http://ncsr.gr/output-filename> <http://w3id.org/dice-research/enexa/ontology#location> 'enexa-dir://1-extracted_graph_for_enexa_hackathon_LLM_KnowGL_fixed.ttl' }" \
-    |sparql-update "$ENEXA_META_DATA_ENDPOINT"
+fi
 
+mkdir -p /tmp/output
 
 java -Xmx220g -XX:-UseGCOverheadLimit -jar NCSR-Module.jar \
-    -t "$(enexa-parameter "http://example.org/dicee/parameters/t-boxFile")" \
-    -a "$(enexa-parameter "http://example.org/dicee/parameters/a-boxFile")" \
-    -o "$(enexa-parameter "http://example.org/dicee/parameters/outputFilename")" \
+    -t "$(enexa-parameter "http://w3id.org/dice-research/enexa/module/extraction/parameter/t-boxFile")" \
+    -a "$(enexa-parameter "http://w3id.org/dice-research/enexa/module/extraction/parameter/a-boxFile")" \
+    -o /tmp/output/fixed.ttl \
     -c 
+enexa-add-file /tmp/output/fixed.ttl "http://w3id.org/dice-research/enexa/module/extraction/result/fixedKG"
