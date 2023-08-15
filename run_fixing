@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # If this is a test run
-if [ "$TEST_RUN" = true ]
+if [ "${TEST_RUN:-false}" = true ]
 then  
   # things which ENEXA is supposed to do
   mkdir -p $ENEXA_WRITEABLE_DIRECTORY
