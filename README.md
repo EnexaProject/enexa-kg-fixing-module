@@ -19,6 +19,4 @@ sudo docker run --rm \
     enexa-ncsr-service:latest
 ```
 
-
-
-The documentation is available [[https://enexa.eu/documentation][here]]. You can find the module documentation [[https://enexa.eu/documentation/modules_overview.html#kg-fixing-module][here]].
+The documentation is available [here](https://enexa.eu/documentation). You can find the module documentation [here](https://enexa.eu/documentation/modules_overview.html#kg-fixing-module).
