@@ -7,9 +7,9 @@ if [ "${TEST_RUN:-false}" = true ]
 then  
   # things which ENEXA is supposed to do
   mkdir -p $ENEXA_WRITEABLE_DIRECTORY
-  echo "INSERT DATA { GRAPH <$ENEXA_META_DATA_GRAPH> { <$ENEXA_MODULE_INSTANCE_IRI> <${PREFIX}parameter/t-boxFile> <http://ncsr.gr/t-box-filename> . <http://ncsr.gr/t-box-filename> <http://w3id.org/dice-research/enexa/ontology#location> 'enexa-dir://LUBM_with_disj-Altered.ttl' }}" \
+  echo "INSERT DATA { GRAPH <$ENEXA_META_DATA_GRAPH> { <$ENEXA_MODULE_INSTANCE_IRI> <${PREFIX}parameter/t-boxFile> <http://ncsr.gr/t-box-filename> . <http://ncsr.gr/t-box-filename> <http://w3id.org/dice-research/enexa/ontology#location> 'enexa-dir://dbpedia_merged.ttl' }}" \
     |sparql-update "$ENEXA_META_DATA_ENDPOINT"
-  echo "INSERT DATA { GRAPH <$ENEXA_META_DATA_GRAPH> { <$ENEXA_MODULE_INSTANCE_IRI> <${PREFIX}parameter/a-boxFile> <http://ncsr.gr/a-box-filename> . <http://ncsr.gr/a-box-filename> <http://w3id.org/dice-research/enexa/ontology#location> 'enexa-dir://testing2.5.nt' }}" \
+  echo "INSERT DATA { GRAPH <$ENEXA_META_DATA_GRAPH> { <$ENEXA_MODULE_INSTANCE_IRI> <${PREFIX}parameter/a-boxFile> <http://ncsr.gr/a-box-filename> . <http://ncsr.gr/a-box-filename> <http://w3id.org/dice-research/enexa/ontology#location> 'enexa-dir://dbpediatop100.nt' }}" \
     |sparql-update "$ENEXA_META_DATA_ENDPOINT"
 fi
 
